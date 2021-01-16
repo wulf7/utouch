@@ -39,6 +39,10 @@
 #include <sys/sysctl.h>
 #include <sys/systm.h>
 
+#if __FreeBSD_version >= 1300134
+#include <dev/hid/hid.h>
+#endif
+
 #include <dev/usb/usb.h>
 #include <dev/usb/usbdi.h>
 #include <dev/usb/usbdi_util.h>
@@ -201,11 +205,21 @@ utouch_attach(device_t dev)
 
 	/* Report absolute axes information */
 	if (sc->sc_flags & UTOUCH_FLAG_X_AXIS)
+#if __FreeBSD_version >= 1300134
+		evdev_support_abs(sc->sc_evdev, ABS_X, sc->sc_ai_x.min,
+		    sc->sc_ai_x.max, 0, 0, sc->sc_ai_x.res);
+#else
 		evdev_support_abs(sc->sc_evdev, ABS_X, 0, sc->sc_ai_x.min,
 		    sc->sc_ai_x.max, 0, 0, sc->sc_ai_x.res);
+#endif
 	if (sc->sc_flags & UTOUCH_FLAG_Y_AXIS)
+#if __FreeBSD_version >= 1300134
+		evdev_support_abs(sc->sc_evdev, ABS_Y, sc->sc_ai_y.min,
+		    sc->sc_ai_y.max, 0, 0, sc->sc_ai_y.res);
+#else
 		evdev_support_abs(sc->sc_evdev, ABS_Y, 0, sc->sc_ai_y.min,
 		    sc->sc_ai_y.max, 0, 0, sc->sc_ai_y.res);
+#endif
 
 	if (sc->sc_flags & UTOUCH_FLAG_Z_AXIS)
 		evdev_support_rel(sc->sc_evdev, REL_WHEEL);
@@ -509,6 +523,9 @@ static driver_t utouch_driver = {
 
 DRIVER_MODULE(utouch, uhub, utouch_driver, utouch_devclass, NULL, 0);
 MODULE_DEPEND(utouch, usb, 1, 1, 1);
+#if __FreeBSD_version >= 1300134
+MODULE_DEPEND(utouch, hid, 1, 1, 1);
+#endif
 MODULE_DEPEND(utouch, evdev, 1, 1, 1);
 MODULE_VERSION(utouch, 1);
 USB_PNP_HOST_INFO(utouch_devs);
