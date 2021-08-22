@@ -57,6 +57,12 @@
 #include <dev/evdev/input.h>
 #include <dev/evdev/evdev.h>
 
+static int utouch_debug = 0;
+static SYSCTL_NODE(_hw_usb, OID_AUTO, utouch, CTLFLAG_RW | CTLFLAG_MPSAFE, 0,
+    "USB touch");
+SYSCTL_INT(_hw_usb_utouch, OID_AUTO, debug, CTLFLAG_RWTUN, &utouch_debug, 0,
+    "Debug level");
+
 enum {
 	UTOUCH_INTR_DT,
 	UTOUCH_N_TRANSFER,
