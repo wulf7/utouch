@@ -21,3 +21,10 @@ It may be necessary to unload conflicting uhid driver with "**kldunload uhid**"
 To load driver automaticaly at the boot time add **utouch_load="YES"** string
 to **/boot/loader.conf** file.
 
+**Note:** This driver is deprecated on FreeBSD 13+. Please use **hms(4)**
+bundled with base system. It is disabled by default and can be enabled with
+adding of following lines to **/boot/loader.conf**:
+```
+hw.usb.usbhid.enable=1
+usbhid_load="YES"
+```
