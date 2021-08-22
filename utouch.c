@@ -319,7 +319,7 @@ utouch_ev_close_11(struct evdev_dev *evdev, void *ev_softc)
 {
 	struct utouch_softc *sc = ev_softc;
 
-	mtx_assert(&sc->mtx, MA_OWNED);
+	mtx_assert(&sc->sc_mtx, MA_OWNED);
 	usbd_transfer_stop(sc->sc_xfer[UTOUCH_INTR_DT]);
 }
 
@@ -328,7 +328,7 @@ utouch_ev_open_11(struct evdev_dev *evdev, void *ev_softc)
 {
 	struct utouch_softc *sc = ev_softc;
 
-        mtx_assert(&sc->mtx, MA_OWNED);
+        mtx_assert(&sc->sc_mtx, MA_OWNED);
 	usbd_transfer_start(sc->sc_xfer[UTOUCH_INTR_DT]);
 
         return (0);
