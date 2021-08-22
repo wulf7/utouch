@@ -1,6 +1,6 @@
-# utouch - FreeBSD driver for absolute USB HID mouses
+# utouch - FreeBSD driver for absolute USB HID mices
 
-utouch - driver for absolute USB HID mouses emulated by some virtualization
+utouch - driver for absolute USB HID mices emulated by some virtualization
 systems like Virtual Box, BHyve etc. It uses evdev protocol to communicate
 with userland applications like libinput and xf86-input-evdev. The driver
 should be installed in to the guest FreeBSD system. Host system should be
