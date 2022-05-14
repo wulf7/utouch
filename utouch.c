@@ -511,8 +511,6 @@ static const STRUCT_USB_HOST_ID utouch_devs[] = {
 	 USB_IFACE_SUBCLASS(0),},
 };
 
-static devclass_t utouch_devclass;
-
 static device_method_t utouch_methods[] = {
 	DEVMETHOD(device_probe, utouch_probe),
 	DEVMETHOD(device_attach, utouch_attach),
@@ -527,7 +525,13 @@ static driver_t utouch_driver = {
 	.size = sizeof(struct utouch_softc),
 };
 
+#if __FreeBSD_version >= 1400058
+DRIVER_MODULE(utouch, uhub, utouch_driver, NULL, NULL);
+#else
+static devclass_t utouch_devclass;
+
 DRIVER_MODULE(utouch, uhub, utouch_driver, utouch_devclass, NULL, 0);
+#endif
 MODULE_DEPEND(utouch, usb, 1, 1, 1);
 #if __FreeBSD_version >= 1300134
 MODULE_DEPEND(utouch, hid, 1, 1, 1);
